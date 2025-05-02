@@ -21,6 +21,20 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'image',
+
+         'creater_id',
+         'updater_id',
+         'deleter_id',
+
+         'creater_type',
+         'updater_type',
+         'deleter_type',
+
+         'created_at',
+         'updated_at',
+         'deleted_at',
     ];
 
     /**
@@ -43,6 +57,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status'=>'integer',
         ];
     }
 }

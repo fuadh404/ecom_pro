@@ -3,9 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Http\Traits\AuditColumnTrait;
 
 return new class extends Migration
 {
+    use AuditColumnTrait;
     /**
      * Run the migrations.
      */
@@ -15,10 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('image')->nullable();
+            $table->tinyInteger('status')->default(1)->comment('1 = active, 0 = Peding, -1 = Inactive');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $this->addMorphAuditColumns($table);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -41,9 +46,14 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
-    }
+{
+    Schema::table('users', function (Blueprint $table) {
+        $this->dropMorphAuditColumns($table);
+    });
+
+    Schema::dropIfExists('users');
+    Schema::dropIfExists('password_reset_tokens');
+    Schema::dropIfExists('sessions');
+}
+
 };

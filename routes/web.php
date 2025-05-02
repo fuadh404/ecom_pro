@@ -13,6 +13,10 @@
         });
 
         //User auth Routes
-        Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
-                    Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
+        Route::group(['middleware' => 'auth:web', 'prefix' => 'user', 'as' => 'user.'], function () {
+            Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
+        });
+
+        Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+            Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
         });

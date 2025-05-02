@@ -1,4 +1,4 @@
-@extends('frontend.user.layouts.master')
+@extends('frontend.layouts.master')
 @section('title', 'Home')
 @section('content')
 <div class="container">

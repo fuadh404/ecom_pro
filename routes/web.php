@@ -1,18 +1,18 @@
-    <?php
+        <?php
 
-    use Illuminate\Support\Facades\Auth;
-    use App\Http\Controllers\Backend\User\DashboardController as UserDashboardController;
-    use Illuminate\Support\Facades\Route;
+        use Illuminate\Support\Facades\Auth;
+        use App\Http\Controllers\Frontend\HomeController;
+        use App\Http\Controllers\Backend\User\DashboardController as UserDashboardController;
+        use Illuminate\Support\Facades\Route;
 
-    Auth::routes();
+        Auth::routes();
 
+        //frontend Routes
+        Route::group(['as' => 'f.'], function () {
+            Route::get('/', [HomeController::class, 'home'])-> name('home');
+        });
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-    Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
-                Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
-    });
+        //User auth Routes
+        Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
+                    Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
+        });
